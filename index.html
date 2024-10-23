@@ -1,0 +1,898 @@
+<!Doctype html>
+<html lang="en">
+    <head>
+        <title>MTD</title>
+
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="author" content="Yuze Wang">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" type="text/css" href="style_project_page.css">
+        <link href="https://fonts.googleapis.com/css?family=Arvo|Roboto&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://cdn.rawgit.com/jpswalsh/academicons/master/css/academicons.min.css">
+        <link rel="stylesheet" href="https://unpkg.com/@glidejs/glide/dist/css/glide.core.min.css">
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="https://unpkg.com/@glidejs/glide"></script>
+        <style type="text/css">
+            .side-text {
+                width:60%;
+                display:inline-block;
+                vertical-align:top;
+            }
+            .side-image {
+                width: 38%;
+                display: inline-block;
+                vertical-align: top;
+            }
+            .controls {
+                margin-bottom: 10px;
+            }
+            .left-controls {
+                display: inline-block;
+                vertical-align: top;
+                width: 80%;
+            }
+            .right-controls {
+                display: inline-block;
+                vertical-align: top;
+                width: 19%;
+                text-align: right;
+            }
+            .render_window {
+                display: inline-block;
+                vertical-align: middle;
+                box-shadow: 1px 0px 5px black;
+                margin-right: 10px;
+                margin-bottom: 10px;
+                width: calc(33% - 10px);
+            }
+            .progress {
+                background: #666;
+                position: relative;
+                height: 5px;
+                margin-bottom: -5px;
+                display: none;
+            }
+            .glide__slide:hover {cursor: grab;}
+            .glide__slide:active {cursor: grabbing;}
+            .glide__slide img {width: 90%;}
+            .glide__bullets {
+                text-align: center;
+            }
+            .glide__bullet--active {
+                color: #aaa; 
+            }
+
+            @media (max-width: 400px) {
+                .render_window {
+                    display: block;
+                    width: 90%;
+                    margin: 10px auto;
+                }
+            }
+            @media (max-width: 700px) {
+                .side-image {
+                    display: block;
+                    width: 80%;
+                    margin: 10px auto;
+                }
+                .side-text {
+                    display: block;
+                    width: 100%;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="section">
+            <h1 class="project-title">
+                MTD: Generating Realistic and Diverse Safety-Critical Scenarios for Autonomous Vehicles
+            </h1>
+            <div class="authors">
+                <a>
+                    Yuze Wang<sup>1</sup>
+                </a>
+            </div>
+
+            <div class="affiliations">
+                <span><sup>1</sup> University of Electronic Science and Technology of China</span><br>
+                <span><sup>2</sup> Yangtze Delta Region Institute (Quzhou), University of Electronic Science and Technology of China</span>&emsp;
+            </div>
+
+            <div class="project-icons">
+                <a href="docs/mtd.pdf">
+                    <i class="fa fa-file"></i> <br/>
+                    Paper
+                </a>
+
+                <a href="https://github.com/wyz12234/MTD">
+                    <i class="fa fa-github"></i> <br/>
+                    Code
+                </a>
+            </div>
+
+            <div class="section-title">Abstract</div>
+            <img src="img/framework.png" style="width:90%;">
+            <div class="content">
+                <p>
+                    Autonomous driving is an emerging technology that has developed rapidly over the past decade.
+                    In the process of developing autonomous vehicles, evaluating and improving the performance of
+                    driving planners requires a large number of realistic and adversarial safety-critical scenarios,
+                    such as collisions. However, due to the long-tail effect, sparsity, and low frequency of
+                    real-world datasets, obtaining these scenarios is not easy. To address this issue, we propose a
+                    method for automatically generating safety-critical scenarios using 
+                    <u>M</u>otion <u>T</u>ransformer <u>D</u>iffusion (MTD). MTD is designed to generate stable,
+                    realistic, and diverse safety-critical scenarios along with their corresponding expert solutions.
+                    To ensure the realism of the generated scenarios, we designed a Diffusion-based traffic generation
+                    model that enhances agent interaction, temporal understanding, and reduces dependency on original
+                    trajectories. To make the generated scenarios more adversarial, we developed an adversarial hybrid
+                    guidance function, which takes into account adversarial, stability, and realism factors to guide 
+                    adversary vehicles into collisions. We further designed an expert hybrid guidance function aimed
+                    at finding expert solutions within the generated scenarios to help improve data-driven planners.
+                    Extensive experimental results demonstrate that MTD advances the state-of-the-art in generating 
+                    stable, realistic, and diverse safety-critical scenarios. Moreover, MTD not only effectively tests
+                    the performance of autonomous driving planners but also enhances the training data distribution
+                    through the expert trajectories it generates.
+            </div>
+
+
+            <div class="section-title">Safety-Critical Scenario Generation</div>
+            <div class="content">
+                <p>
+                    We present different types of safety-critical scenarios generated by MTD here.
+                    </br>
+
+                    <table align=center width=900px>
+                        <tr>
+                            <center>
+                                <td colspan='2'>
+                                    <video id="video1" width="300" height="300" controls muted autoplay loop>
+                                        <source src="./videos/video1/Rear-end(by adversary)1.mp4" type="video/mp4">
+                                    </video>
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", function() {
+                                            var video = document.getElementById("video1");
+                                            video.playbackRate = 0.25;
+                                        });
+                                    </script>
+                                </td>                
+                                <td colspan='2'>
+                                    <video id="video2" width="300" height="300" controls muted autoplay loop>
+                                        <source src="./videos/video1/Head-on1.mp4" type="video/mp4">
+                                    </video>
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", function() {
+                                            var video = document.getElementById("video2");
+                                            video.playbackRate = 0.25;
+                                        });
+                                    </script>
+                                </td> 
+                                <td colspan='2'>
+                                    <video id="video3" width="300" height="300" controls muted autoplay loop>
+                                        <source src="./videos/video1/Rear-end(by ego)1.mp4" type="video/mp4">
+                                    </video>
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", function() {
+                                            var video = document.getElementById("video3");
+                                            video.playbackRate = 0.25;
+                                        });
+                                    </script>
+                                </td>                 
+                            </center>
+                        </tr>          
+                        <tr>
+                            <center>
+                                <td colspan='2'>
+                                    <center>
+                                        Rear-end(by adversary)
+                                    </center>
+                                </td>
+                                <td colspan='2'>
+                                    <center>
+                                        Head-on                    
+                                    </center>
+                                </td>
+                                <td colspan='2'>
+                                    <center>
+                                        Rear-end(by ego)
+                                    </center>
+                                </td>
+                            </center>
+                        </tr>
+                        <tr>
+                            <center>
+                                <td colspan='2'>
+                                    <video id="video4" width="300" height="300" controls muted autoplay loop>
+                                        <source src="./videos/video1/Head-side1.mp4" type="video/mp4">
+                                    </video>
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", function() {
+                                            var video = document.getElementById("video4");
+                                            video.playbackRate = 0.25;
+                                        });
+                                    </script>
+                                </td>                
+                                <td colspan='2'>
+                                    <video id="video5" width="300" height="300" controls muted autoplay loop>
+                                        <source src="./videos/video1/T-bone1.mp4" type="video/mp4">
+                                    </video>
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", function() {
+                                            var video = document.getElementById("video5");
+                                            video.playbackRate = 0.25;
+                                        });
+                                    </script>
+                                </td> 
+                                <td colspan='2'>
+                                    <video id="video6" width="300" height="300" controls muted autoplay loop>
+                                        <source src="./videos/video1/sideswipe.mp4" type="video/mp4">
+                                    </video>
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", function() {
+                                            var video = document.getElementById("video6");
+                                            video.playbackRate = 0.25;
+                                        });
+                                    </script>
+                                </td>                 
+                            </center>
+                        </tr>          
+                        <tr>
+                            <center>
+                                <td colspan='2'>
+                                    <center>
+                                        Head-side
+                                    </center>
+                                </td>
+                                <td colspan='2'>
+                                    <center>
+                                       T-bone                       
+                                    </center>
+                                </td>
+                                <td colspan='2'>
+                                    <center>
+                                        Sideswipe
+                                    </center>
+                                </td>
+                            </center>
+                        </tr>
+                        <tr>
+                            <center>
+                                <td colspan='2'>
+                                    <video id="video7" width="300" height="300" controls muted autoplay loop>
+                                        <source src="./videos/video1/cut-in.mp4" type="video/mp4">
+                                    </video>
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", function() {
+                                            var video = document.getElementById("video7");
+                                            video.playbackRate = 0.25;
+                                        });
+                                    </script>
+                                </td>                
+                                <td colspan='2'>
+                                    <video id="video8" width="300" height="300" controls muted autoplay loop>
+                                        <source src="./videos/video1/Rear-side1.mp4" type="video/mp4">
+                                    </video>
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", function() {
+                                            var video = document.getElementById("video8");
+                                            video.playbackRate = 0.25;
+                                        });
+                                    </script>
+                                </td> 
+                                <td colspan='2'>
+                                    <video id="video9" width="300" height="300" controls muted autoplay loop>
+                                        <source src="./videos/video1/T-bone2.mp4" type="video/mp4">
+                                    </video>
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", function() {
+                                            var video = document.getElementById("video9");
+                                            video.playbackRate = 0.25;
+                                        });
+                                    </script>
+                                </td>                 
+                            </center>
+                        </tr>          
+                        <tr>
+                            <center>
+                                <td colspan='2'>
+                                    <center>
+                                        Oblique cut-in
+                                    </center>
+                                </td>
+                                <td colspan='2'>
+                                    <center>
+                                        Rear-side                 
+                                    </center>
+                                </td>
+                                <td colspan='2'>
+                                    <center>
+                                        T-bone
+                                    </center>
+                                </td>
+                            </center>
+                        </tr>
+                    </table>
+                </p>
+            </div>
+
+            <div class="section-title">Expert Solutions</div>
+            <div class="content">
+                <p>
+                    We present the generated safety-critical scenarios along with their corresponding expert solutions here.
+                    </br></br>
+                    <table align=center width=600px>
+                        <tr>
+                            <center>
+                                <td colspan='2'>
+                                    <video id="video10" width="300" height="300" controls muted autoplay loop>
+                                        <source src="./videos/video2/adv1.mp4" type="video/mp4">
+                                    </video>
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", function() {
+                                            var video = document.getElementById("video10");
+                                            video.playbackRate = 0.25;
+                                        });
+                                    </script>
+                                </td>                
+                                <td colspan='2'>
+                                    <video id="video11" width="300" height="300" controls muted autoplay loop>
+                                        <source src="./videos/video2/sol1.mp4" type="video/mp4">
+                                    </video>
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", function() {
+                                            var video = document.getElementById("video11");
+                                            video.playbackRate = 0.25;
+                                        });
+                                    </script>
+                                </td>              
+                            </center>
+                        </tr>          
+                        <tr>
+                            <center>
+                                <td colspan='2'>
+                                    <center>
+                                        MTD Safety-Critical Scenario
+                                    </center>
+                                </td>
+                                <td colspan='2'>
+                                    <center>
+                                        MTD Solution
+                                    </center>
+                                </td>
+                            </center>
+                        </tr>
+                        <tr>
+                            <center>
+                                <td colspan='2'>
+                                    <video id="video12" width="300" height="300" controls muted autoplay loop>
+                                        <source src="./videos/video2/adv2.mp4" type="video/mp4">
+                                    </video>
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", function() {
+                                            var video = document.getElementById("video12");
+                                            video.playbackRate = 0.25;
+                                        });
+                                    </script>
+                                </td>                
+                                <td colspan='2'>
+                                    <video id="video13" width="300" height="300" controls muted autoplay loop>
+                                        <source src="./videos/video2/sol2.mp4" type="video/mp4">
+                                    </video>
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", function() {
+                                            var video = document.getElementById("video13");
+                                            video.playbackRate = 0.25;
+                                        });
+                                    </script>
+                                </td>             
+                            </center>
+                        </tr>  
+                        <tr>
+                            <center>
+                                <td colspan='2'>
+                                    <center>
+                                        MTD Safety-Critical Scenario
+                                    </center>
+                                </td>
+                                <td colspan='2'>
+                                    <center>
+                                        MTD Solution
+                                    </center>
+                                </td>
+                            </center>
+                        </tr>
+                        <tr>
+                            <center>
+                                <td colspan='2'>
+                                    <video id="video14" width="300" height="300" controls muted autoplay loop>
+                                        <source src="./videos/video2/adv3.mp4" type="video/mp4">
+                                    </video>
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", function() {
+                                            var video = document.getElementById("video14");
+                                            video.playbackRate = 0.25;
+                                        });
+                                    </script>
+                                </td>                
+                                <td colspan='2'>
+                                    <video id="video15" width="300" height="300" controls muted autoplay loop>
+                                        <source src="./videos/video2/sol3.mp4" type="video/mp4">
+                                    </video>
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", function() {
+                                            var video = document.getElementById("video15");
+                                            video.playbackRate = 0.25;
+                                        });
+                                    </script>
+                                </td>             
+                            </center>
+                        </tr>  
+                        <tr>
+                            <center>
+                                <td colspan='2'>
+                                    <center>
+                                        MTD Safety-Critical Scenario
+                                    </center>
+                                </td>
+                                <td colspan='2'>
+                                    <center>
+                                        MTD Solution
+                                    </center>
+                                </td>
+                            </center>
+                        </tr>
+                        <tr>
+                            <center>
+                                <td colspan='2'>
+                                    <video id="video16" width="300" height="300" controls muted autoplay loop>
+                                        <source src="./videos/video2/adv4.mp4" type="video/mp4">
+                                    </video>
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", function() {
+                                            var video = document.getElementById("video16");
+                                            video.playbackRate = 0.25;
+                                        });
+                                    </script>
+                                </td>                
+                                <td colspan='2'>
+                                    <video id="video17" width="300" height="300" controls muted autoplay loop>
+                                        <source src="./videos/video2/sol4.mp4" type="video/mp4">
+                                    </video>
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", function() {
+                                            var video = document.getElementById("video17");
+                                            video.playbackRate = 0.25;
+                                        });
+                                    </script>
+                                </td>             
+                            </center>
+                        </tr>  
+                        <tr>
+                            <center>
+                                <td colspan='2'>
+                                    <center>
+                                        MTD Safety-Critical Scenario
+                                    </center>
+                                </td>
+                                <td colspan='2'>
+                                    <center>
+                                        MTD Solution
+                                    </center>
+                                </td>
+                            </center>
+                        </tr>
+                        <tr>
+                            <center>
+                                <td colspan='2'>
+                                    <video id="video18" width="300" height="300" controls muted autoplay loop>
+                                        <source src="./videos/video2/adv5.mp4" type="video/mp4">
+                                    </video>
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", function() {
+                                            var video = document.getElementById("video18");
+                                            video.playbackRate = 0.25;
+                                        });
+                                    </script>
+                                </td>                
+                                <td colspan='2'>
+                                    <video id="video19" width="300" height="300" controls muted autoplay loop>
+                                        <source src="./videos/video2/sol5.mp4" type="video/mp4">
+                                    </video>
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", function() {
+                                            var video = document.getElementById("video19");
+                                            video.playbackRate = 0.25;
+                                        });
+                                    </script>
+                                </td>             
+                            </center>
+                        </tr>  
+                        <tr>
+                            <center>
+                                <td colspan='2'>
+                                    <center>
+                                        MTD Safety-Critical Scenario
+                                    </center>
+                                </td>
+                                <td colspan='2'>
+                                    <center>
+                                        MTD Solution
+                                    </center>
+                                </td>
+                            </center>
+                        </tr>
+                        <tr>
+                            <center>
+                                <td colspan='2'>
+                                    <video id="video20" width="300" height="300" controls muted autoplay loop>
+                                        <source src="./videos/video2/adv6.mp4" type="video/mp4">
+                                    </video>
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", function() {
+                                            var video = document.getElementById("video20");
+                                            video.playbackRate = 0.25;
+                                        });
+                                    </script>
+                                </td>                
+                                <td colspan='2'>
+                                    <video id="video21" width="300" height="300" controls muted autoplay loop>
+                                        <source src="./videos/video2/sol6.mp4" type="video/mp4">
+                                    </video>
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", function() {
+                                            var video = document.getElementById("video21");
+                                            video.playbackRate = 0.25;
+                                        });
+                                    </script>
+                                </td>             
+                            </center>
+                        </tr>  
+                        <tr>
+                            <center>
+                                <td colspan='2'>
+                                    <center>
+                                        MTD Safety-Critical Scenario
+                                    </center>
+                                </td>
+                                <td colspan='2'>
+                                    <center>
+                                        MTD Solution
+                                    </center>
+                                </td>
+                            </center>
+                        </tr>
+                        <tr>
+                            <center>
+                                <td colspan='2'>
+                                    <video id="video22" width="300" height="300" controls muted autoplay loop>
+                                        <source src="./videos/video2/adv7.mp4" type="video/mp4">
+                                    </video>
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", function() {
+                                            var video = document.getElementById("video22");
+                                            video.playbackRate = 0.25;
+                                        });
+                                    </script>
+                                </td>                
+                                <td colspan='2'>
+                                    <video id="video23" width="300" height="300" controls muted autoplay loop>
+                                        <source src="./videos/video2/sol7.mp4" type="video/mp4">
+                                    </video>
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", function() {
+                                            var video = document.getElementById("video23");
+                                            video.playbackRate = 0.25;
+                                        });
+                                    </script>
+                                </td>             
+                            </center>
+                        </tr>  
+                        <tr>
+                            <center>
+                                <td colspan='2'>
+                                    <center>
+                                        MTD Safety-Critical Scenario
+                                    </center>
+                                </td>
+                                <td colspan='2'>
+                                    <center>
+                                        MTD Solution
+                                    </center>
+                                </td>
+                            </center>
+                        </tr>
+                    </table>
+                    
+                </p>
+            </div>
+
+            <div class="section-title">Enhancing and Testing Autonomous Driving Planners</div>
+            <div class="content">
+                <p>
+                    To further illustrate the effectiveness of the safety-critical scenarios generated by MTD, we evaluated the performance 
+                    of the autonomous driving planner AutoBot in both safety-critical scenarios generated by MTD and regular original 
+                    scenarios. Additionally, we analyze the effectiveness of the generated expert trajectories in enhancing the original 
+                    training data distribution. Specifically, we evaluate the performance of the autonomous driving planner, AutoBot, 
+                    before and after fine-tuning with expert trajectories, to assess the effectiveness of the generated safety-critical 
+                    scenarios and their corresponding expert trajectories.
+                    </br></br>
+                    <table align=center width=600px>
+                        <tr>
+                            <td colspan="4" style="text-align: center; font-weight: bold;">
+                                Lane-change
+                            </td>
+                        </tr>
+                        <tr>
+                            <center>
+                                <td colspan='2'>
+                                    <video id="video24" width="300" height="300" controls muted autoplay loop>
+                                        <source src="./videos/video3/pre1.mp4" type="video/mp4">
+                                    </video>
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", function() {
+                                            var video = document.getElementById("video24");
+                                            video.playbackRate = 0.25;
+                                        });
+                                    </script>
+                                </td>                
+                                <td colspan='2'>
+                                    <video id="video25" width="300" height="300" controls muted autoplay loop>
+                                        <source src="./videos/video3/fine1.mp4" type="video/mp4">
+                                    </video>
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", function() {
+                                            var video = document.getElementById("video25");
+                                            video.playbackRate = 0.25;
+                                        });
+                                    </script>
+                                </td>             
+                            </center>
+                        </tr>  
+                        <tr>
+                            <center>
+                                <td colspan='2'>
+                                    <center>
+                                        Pre-Train
+                                    </center>
+                                </td>
+                                <td colspan='2'>
+                                    <center>
+                                        Fine-Tune
+                                    </center>
+                                </td>
+                            </center>
+                        </tr>
+                        <tr>
+                            <td colspan="4" style="text-align: center; font-weight: bold;">
+                                Intersection
+                            </td>
+                        </tr>
+                        <tr>
+                            <center>
+                                <td colspan='2'>
+                                    <video id="video26" width="300" height="300" controls muted autoplay loop>
+                                        <source src="./videos/video3/pre2.mp4" type="video/mp4">
+                                    </video>
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", function() {
+                                            var video = document.getElementById("video26");
+                                            video.playbackRate = 0.25;
+                                        });
+                                    </script>
+                                </td>                
+                                <td colspan='2'>
+                                    <video id="video27" width="300" height="300" controls muted autoplay loop>
+                                        <source src="./videos/video3/fine2.mp4" type="video/mp4">
+                                    </video>
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", function() {
+                                            var video = document.getElementById("video27");
+                                            video.playbackRate = 0.25;
+                                        });
+                                    </script>
+                                </td>             
+                            </center>
+                        </tr>  
+                        <tr>
+                            <center>
+                                <td colspan='2'>
+                                    <center>
+                                        Pre-Train
+                                    </center>
+                                </td>
+                                <td colspan='2'>
+                                    <center>
+                                        Fine-Tune
+                                    </center>
+                                </td>
+                            </center>
+                        </tr>
+                        <tr>
+                            <td colspan="4" style="text-align: center; font-weight: bold;">
+                                Following
+                            </td>
+                        </tr>
+                        <tr>
+                            <center>
+                                <td colspan='2'>
+                                    <video id="video28" width="300" height="300" controls muted autoplay loop>
+                                        <source src="./videos/video3/pre3.mp4" type="video/mp4">
+                                    </video>
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", function() {
+                                            var video = document.getElementById("video28");
+                                            video.playbackRate = 0.25;
+                                        });
+                                    </script>
+                                </td>                
+                                <td colspan='2'>
+                                    <video id="video29" width="300" height="300" controls muted autoplay loop>
+                                        <source src="./videos/video3/fine3.mp4" type="video/mp4">
+                                    </video>
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", function() {
+                                            var video = document.getElementById("video29");
+                                            video.playbackRate = 0.25;
+                                        });
+                                    </script>
+                                </td>             
+                            </center>
+                        </tr>  
+                        <tr>
+                            <center>
+                                <td colspan='2'>
+                                    <center>
+                                        Pre-Train
+                                    </center>
+                                </td>
+                                <td colspan='2'>
+                                    <center>
+                                        Fine-Tune
+                                    </center>
+                                </td>
+                            </center>
+                        </tr>
+                    </table>
+
+                </p>
+            </div>
+
+            <div class="section-title">Diversity of Scenarios Generated by MTD </div> 
+            <div class="content">
+                <p>
+                    We present the visualized results of trajectories generated by MTD across 6 experiments using the nuScenes dataset.
+                    All 6 experiments share identical inputs, differing only in their random seeds. The results demonstrate that MTD 
+                    is capable of producing a diverse set of trajectories within the same scenario, effectively enriching the data distribution.
+                    </br></br>
+                    <table align=center width=900px>
+                        <tr>
+                            <center>
+                                <td colspan='2'>
+                                    <video id="video30" width="300" height="300" controls muted autoplay loop>
+                                        <source src="./videos/video4/r1.mp4" type="video/mp4">
+                                    </video>
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", function() {
+                                            var video = document.getElementById("video30");
+                                            video.playbackRate = 0.25;
+                                        });
+                                    </script>
+                                </td>                
+                                <td colspan='2'>
+                                    <video id="video31" width="300" height="300" controls muted autoplay loop>
+                                        <source src="./videos/video4/r2.mp4" type="video/mp4">
+                                    </video>
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", function() {
+                                            var video = document.getElementById("video31");
+                                            video.playbackRate = 0.25;
+                                        });
+                                    </script>
+                                </td>       
+                                <td colspan='2'>
+                                    <video id="video32" width="300" height="300" controls muted autoplay loop>
+                                        <source src="./videos/video4/r3.mp4" type="video/mp4">
+                                    </video>
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", function() {
+                                            var video = document.getElementById("video32");
+                                            video.playbackRate = 0.25;
+                                        });
+                                    </script>
+                                </td>              
+                            </center>
+                        </tr>          
+                        <tr>
+                            <center>
+                                <td colspan='2'>
+                                    <center>
+                                        Rollout 1
+                                    </center>
+                                </td>
+                                <td colspan='2'>
+                                    <center>
+                                        Rollout 2            
+                                    </center>
+                                </td>
+                                <td colspan='2'>
+                                    <center>
+                                        Rollout 3           
+                                    </center>
+                                </td>
+                            </center>
+                        </tr>
+                        <tr>
+                            <center>
+                                <td colspan='2'>
+                                    <video id="video33" width="300" height="300" controls muted autoplay loop>
+                                        <source src="./videos/video4/r4.mp4" type="video/mp4">
+                                    </video>
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", function() {
+                                            var video = document.getElementById("video33");
+                                            video.playbackRate = 0.25;
+                                        });
+                                    </script>
+                                </td>                
+                                <td colspan='2'>
+                                    <video id="video34" width="300" height="300" controls muted autoplay loop>
+                                        <source src="./videos/video4/r5.mp4" type="video/mp4">
+                                    </video>
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", function() {
+                                            var video = document.getElementById("video34");
+                                            video.playbackRate = 0.25;
+                                        });
+                                    </script>
+                                </td>       
+                                <td colspan='2'>
+                                    <video id="video35" width="300" height="300" controls muted autoplay loop>
+                                        <source src="./videos/video4/r6.mp4" type="video/mp4">
+                                    </video>
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", function() {
+                                            var video = document.getElementById("video35");
+                                            video.playbackRate = 0.25;
+                                        });
+                                    </script>
+                                </td>              
+                            </center>
+                        </tr>          
+                        <tr>
+                            <center>
+                                <td colspan='2'>
+                                    <center>
+                                        Rollout 4
+                                    </center>
+                                </td>
+                                <td colspan='2'>
+                                    <center>
+                                        Rollout 5           
+                                    </center>
+                                </td>
+                                <td colspan='2'>
+                                    <center>
+                                        Rollout 6          
+                                    </center>
+                                </td>
+                            </center>
+                        </tr>
+                    </table>
+                </p>
+            </div>     
+
+            <div class="section-title">Acknowledgments</div>
+            <div class="content">
+                This project page template is based on <a href="https://github.com/nv-tlabs/STRIVE/blob/f0782c09217ec987751d792ad2fd16a070e708bf/index.html">this page</a>.
+            </div>
+            
+            <div class="section-title">Contact</div>
+            <div class="content">
+                If you have any problem, feel free to contact <a href="mailto:w514375542@gmail.com">w514375542@gmail.com</a>.
+            </div>
+        </div>        
+    
+    </body>
+</html>
