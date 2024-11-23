@@ -1,5 +1,5 @@
 wandb/
-videos/
+# videos/
 figures/
 checkpoints
 experiments/
