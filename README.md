@@ -1,6 +1,6 @@
-# MTD: Generating Realistic and Diverse Safety-Critical Scenarios for Autonomous Vehicles
+# STD: Generating Realistic and Diverse Safety-Critical Scenarios for Autonomous Vehicles
 
-MTD is a query-centric multi-agent traffic generation model for safety-critical scenarios. MTD integrates adversarial guidance and data-driven generation, offering improvements in handling dynamic interactions, enhancing scenario diversity, and boosting the performance of autonomous driving planners.
+STD is a query-centric multi-agent traffic generation model for safety-critical scenarios. STD integrates adversarial guidance and data-driven generation, offering improvements in handling dynamic interactions, enhancing scenario diversity, and boosting the performance of autonomous driving planners.
 
 ## Setup
 
@@ -27,14 +27,14 @@ For ```conda```, we can use the following command to install:
 conda env create -f environment.yml
 ```
 
-### Installing `trajdata_mtd` designed specifically for MTD
+### Installing `trajdata_std` designed specifically for STD
 
-To install `trajdata_mtd` designed for MTD, you may need to delete any references to related projects in `requirements.txt` or `environment.yml` to prevent errors.
+To install `trajdata_std` designed for STD, you may need to delete any references to related projects in `requirements.txt` or `environment.yml` to prevent errors.
 
 ```bash
 cd ..
-git clone https://github.com/wyz12234/trajdata_mtd.git
-cd trajdata_mtd
+git clone https://github.com/wyz12234/trajdata_std.git
+cd trajdata_std
 pip install -e .
 ```
 
@@ -64,7 +64,7 @@ nuscenes/
 ```
 You may also need to install `nuscenes-devkit`. For the installation guide, please refer to the following link: [`nuscenes-devkit`](https://github.com/nutonomy/nuscenes-devkit)
 
-### 2. Train MTD Model
+### 2. Train STD Model
 
 The current configuration is based on the default settings from the paper's environment. If you need to modify the configuration and directory paths, you may need to update the following files:
 
@@ -77,10 +77,10 @@ Before running the training script, you may need to add the current working dire
 export PYTHONPATH=$(pwd):$PYTHONPATH
 ```
 
-Run `scripts/train.py` to train the MTD model:
+Run `scripts/train.py` to train the STD model:
 
 ```bash
-python scripts/train.py --dataset_path <path-to-nuscenes-data-directory> --config_name trajdata_nusc_query --wandb_project_name mtd
+python scripts/train.py --dataset_path <path-to-nuscenes-data-directory> --config_name trajdata_nusc_query --wandb_project_name std
 ```
 
 ### 3. Generate Safety-critical Scenarios and Corresponding Expert solutions
@@ -106,7 +106,7 @@ python scripts/scene_editor.py
 
 ### 4. Generate Long-term Regular Scenarios
 
-First, you need to comment out the `adv_loss` adversarial guidance function in `configs/query_edit_config.py` to generate regular scenarios. Additionally, you need to change `self.trajdata.num_sim_per_scene` to `5` and `self.trajdata.num_simulation_steps` to `200` to measure the long-term generation performance of MTD and the diversity of the generated scenarios.
+First, you need to comment out the `adv_loss` adversarial guidance function in `configs/query_edit_config.py` to generate regular scenarios. Additionally, you need to change `self.trajdata.num_sim_per_scene` to `5` and `self.trajdata.num_simulation_steps` to `200` to measure the long-term generation performance of STD and the diversity of the generated scenarios.
 
 ```bash
 python scripts/generate_regular_scene.py 
@@ -183,7 +183,7 @@ python scripts/cluster_scenarios.py \
 
 ## Checkpoints
 
-We have provided checkpoints for MTD [here](https://drive.google.com/drive/folders/1QZg0M-9YiWIOOicAzKEwLAH9W9hMobdB?usp=sharing). The pre-trained models are provided under the **CC-BY-NC-SA-4.0 license**.
+We have provided checkpoints for STD [here](https://drive.google.com/drive/folders/1QZg0M-9YiWIOOicAzKEwLAH9W9hMobdB?usp=sharing). The pre-trained models are provided under the **CC-BY-NC-SA-4.0 license**.
 
 ## Acknowledgements
 

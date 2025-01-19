@@ -30,9 +30,6 @@ from utils.solution_utils import check_vehicle_collision, run_find_solution_opti
 
 def run_evaluation(eval_cfg, save_cfg, data_to_disk, render_to_video, render_to_img, render_cfg):
     file_path = eval_cfg.file_path
-    # file_path = '/home/wyz/diffusion_trajection/logs/preexp4_mtd_adv_0906/query_edit_eval/data.hdf5'  # adv data 
-    # file_path = '/home/wyz/diffusion_trajection/logs/normal_0910/query_edit_eval/data.hdf5' # new ori data
-    # file_path = '/home/wyz/diffusion_trajection/logs/original_for_exp4/query_edit_eval/data.hdf5' # old ori data
     data = {}
     with h5py.File(file_path, 'r') as file:
         # 遍历文件中的所有数据集
@@ -368,7 +365,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--results_root_dir",
         type=str,
-        default="exp4_mtd_0918_finetune_adv",
+        default="exp4_std_0918_finetune_adv",
         help="Directory to save results and videos"
     )
 
@@ -449,7 +446,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--file_path",
         type=str,
-        default='/home/wyz/diffusion_trajection/logs/preexp4_mtd_adv_0906/query_edit_eval/data.hdf5',
+        default='./data.hdf5',
     )
     #
     # Editing options

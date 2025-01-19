@@ -6,7 +6,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from utils.solution_utils import check_vehicle_collision
 
 # 打开HDF5文件
-file_path = 'logs/exp2_mtd_0820_1/query_edit_eval/data.hdf5'  # 文件路径
+file_path = 'logs/data.hdf5'  # 文件路径
 data = {}
 with h5py.File(file_path, 'r') as file:
     # 遍历文件中的所有数据集

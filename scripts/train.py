@@ -210,7 +210,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--wandb_project_name",
         type=str,
-        default='mtd',
+        default='std',
         help="(optional) if provided, override the wandb project name defined in the config",
     )
 

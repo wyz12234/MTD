@@ -151,11 +151,11 @@ def cluster_scenarios(file_path, num_clusters, save_path, viz=False):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("--file_path", type=str, default='/home/wyz/diffusion_trajection/logs/exp2_mtd_0829/query_edit_eval/data.hdf5',
+    parser.add_argument("--file_path", type=str, default=None,
                         help="Path to the hdf5 file")
     parser.add_argument("--num_clusters", type=int, default=8,
                         help="Number of clusters")
-    parser.add_argument("--save_path", type=str, default='./logs/mtd_cluster',
+    parser.add_argument("--save_path", type=str, default='./logs/std_cluster',
                         help="Path to save the cluster centers")
     parser.add_argument("--viz", action='store_true',
                         help="Visualize the clusters")

@@ -590,7 +590,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--name",
         type=str,
-        default='mtd',
+        default='std',
         help="algorithm name"
     )
 
